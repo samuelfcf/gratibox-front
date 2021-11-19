@@ -6,7 +6,7 @@ import * as S from '../../styles/SignUpAndSignInStyle';
 
 const SignUp = () => {
   const navigate = useNavigate();
-  const [isDisabled, setIsDisabled] = useState(false);
+  const [isDisabled, setIsDisabled] = useState(true);
   const [inputFields, setInputFields] = useState({
     name: '',
     email: '',
@@ -67,7 +67,6 @@ const SignUp = () => {
           value={inputFields.email}
           onChange={handleChange}
           minLength="3"
-          autoFocus
           autoComplete="off"
         />
         <S.Input
@@ -79,7 +78,6 @@ const SignUp = () => {
           onChange={handleChange}
           minLength="3"
           placeholder="Senha"
-          autoFocus
           autoComplete="off"
         />
         <S.Input
@@ -90,7 +88,6 @@ const SignUp = () => {
           value={inputFields.confirmPassword}
           onChange={handleChange}
           minLength="3"
-          autoFocus
           autoComplete="off"
         />
         <S.Button type="submit" disable={isDisabled}>

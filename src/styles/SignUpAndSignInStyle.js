@@ -55,4 +55,16 @@ const Button = styled.button`
   font-family: 'Roboto', sans-serif;
 `;
 
-export { PageStyle, Text, Form, Input, Button };
+const SignUpButton = styled(Button)`
+  margin-top: 110px;
+`;
+
+const Subtitle = styled.span`
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 18px;
+  margin-top: 15px;
+`;
+
+export { PageStyle, Text, Form, Input, Button, Subtitle, SignUpButton };
