@@ -34,6 +34,7 @@ const SignUp = () => {
           icon: 'success',
           title: 'Usuário cadastrado com sucesso!',
         });
+        navigate('/sign-in');
       })
       .catch(async () => {
         await Swal.fire({
