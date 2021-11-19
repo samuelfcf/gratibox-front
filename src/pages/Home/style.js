@@ -11,7 +11,7 @@ const PageStyle = styled.div`
 
 const Img = styled.img`
   width: 100%;
-  height: 482px;
+  height: 480px;
   position: relative;
 `;
 
