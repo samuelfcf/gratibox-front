@@ -30,12 +30,22 @@ const Plans = () => {
     }
   }, []);
   console.log(userStorage?.token);
+
+  const handleSubscribe = (e) => {
+    e.preventDefault();
+    navigate('/subscribe');
+  };
   return (
     <S.PageStyle>
-      <S.WelcomeText>{`Bom te ver por aqui, ${userStorage.user.name}`}</S.WelcomeText>
+      <S.WelcomeText>
+        {userStorage?.user.name
+          ? `Bom te ver por aqui, ${userStorage?.user.name}`
+          : 'Bom te ver por aqui'}
+      </S.WelcomeText>
       <S.SmallText>
         Você ainda não asinou um plano, que tal começar agora?
       </S.SmallText>
+
       <S.PlansConteinar>
         <S.PlanContainer>
           <S.Img src={WeeklyPlanImg} alt="girl in lotus" />
@@ -43,8 +53,9 @@ const Plans = () => {
             Você recebe um box por semana. Ideal para quem quer exercer a
             gratidão todos os dias.
           </S.PlanText>
-          <S.PlanButton>Assinar</S.PlanButton>
+          <S.PlanButton onClick={handleSubscribe}>Assinar</S.PlanButton>
         </S.PlanContainer>
+
         <S.PlanContainer>
           <S.Img
             style={{ width: '350px' }}
@@ -55,7 +66,7 @@ const Plans = () => {
             Você recebe um box por mês. <br />
             <br /> Ideal para quem está começando agora.
           </S.PlanText>
-          <S.PlanButton>Assinar</S.PlanButton>
+          <S.PlanButton onClick={handleSubscribe}>Assinar</S.PlanButton>
         </S.PlanContainer>
       </S.PlansConteinar>
     </S.PageStyle>

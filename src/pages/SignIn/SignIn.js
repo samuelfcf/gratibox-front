@@ -22,8 +22,11 @@ const SignIn = () => {
     const body = inputFields;
     signIn(body)
       .then(async (res) => {
+        const userIsSubscriber = res.data.user.is_subscriber;
         localStorage.setItem('@user', JSON.stringify(res.data));
-        navigate('/plans');
+        if (!userIsSubscriber) {
+          navigate('/plans');
+        } else navigate('/subscription');
       })
       .catch(async () => {
         await Swal.fire({
