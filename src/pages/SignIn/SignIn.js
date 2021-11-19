@@ -23,10 +23,7 @@ const SignIn = () => {
     signIn(body)
       .then(async (res) => {
         localStorage.setItem('@user', JSON.stringify(res.data));
-        await Swal.fire({
-          icon: 'success',
-          title: 'Usuário logado com sucesso!',
-        });
+        navigate('/plans');
       })
       .catch(async () => {
         await Swal.fire({
