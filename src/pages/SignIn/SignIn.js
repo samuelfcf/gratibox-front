@@ -1,5 +1,6 @@
 import * as S from '../../styles/SignUpAndSignInStyle';
 import Swal from 'sweetalert2';
+import Loader from 'react-loader-spinner';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../services/api';
@@ -18,21 +19,22 @@ const SignIn = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsDisabled(!isDisabled);
+    setIsDisabled(false);
     const body = inputFields;
     signIn(body)
       .then(async (res) => {
+        const userIsSubscriber = res.data.user.is_subscriber;
         localStorage.setItem('@user', JSON.stringify(res.data));
-        await Swal.fire({
-          icon: 'success',
-          title: 'Usuário logado com sucesso!',
-        });
+        if (!userIsSubscriber) {
+          navigate('/plans');
+        } else navigate('/subscription');
       })
       .catch(async () => {
         await Swal.fire({
           icon: 'error',
           title: 'Não foi possível efetuar o login, por favor tente novamente',
         });
+        setIsDisabled(true);
       });
   };
 
@@ -63,7 +65,11 @@ const SignIn = () => {
           autoComplete="off"
         />
         <S.SignUpButton type="submit" disable={isDisabled}>
-          Login
+          {isDisabled ? (
+            'Login'
+          ) : (
+            <Loader type="ThreeDots" color="#F1F5F4" height={50} width={50} />
+          )}
         </S.SignUpButton>
         <S.Subtitle onClick={() => navigate('/sign-up')}>
           Ainda não sou grato

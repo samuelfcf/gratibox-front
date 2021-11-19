@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../services/api';
 import Swal from 'sweetalert2';
+import Loader from 'react-loader-spinner';
 import * as S from '../../styles/SignUpAndSignInStyle';
 
 const SignUp = () => {
@@ -20,7 +21,6 @@ const SignUp = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setIsDisabled(!isDisabled);
     const body = inputFields;
     if (body.password !== body.confirmPassword) {
       return Swal.fire({
@@ -28,6 +28,7 @@ const SignUp = () => {
         title: 'Senhas não conferem',
       });
     }
+    setIsDisabled(!isDisabled);
     signUp(body)
       .then(async () => {
         await Swal.fire({
@@ -42,6 +43,7 @@ const SignUp = () => {
           title:
             'Não foi possível efetuar o cadastro, por favor tente novamente',
         });
+        setIsDisabled(!isDisabled);
       });
   };
 
@@ -92,7 +94,11 @@ const SignUp = () => {
           autoComplete="off"
         />
         <S.Button type="submit" disable={isDisabled}>
-          Cadastrar
+          {isDisabled ? (
+            'Cadastrar'
+          ) : (
+            <Loader type="ThreeDots" color="#F1F5F4" height={50} width={50} />
+          )}
         </S.Button>
       </S.Form>
     </S.PageStyle>
