@@ -1,17 +1,29 @@
 import * as S from '../../styles/SignUpAndSignInStyle';
 import Swal from 'sweetalert2';
 import Loader from 'react-loader-spinner';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../services/api';
+import UserContext from '../../contexts/UserContext';
 
 const SignIn = () => {
   const navigate = useNavigate();
+  const { setUser } = useContext(UserContext);
   const [isDisabled, setIsDisabled] = useState(true);
   const [inputFields, setInputFields] = useState({
     email: '',
     password: '',
   });
+
+  useEffect(() => {
+    const userLocalStorage = localStorage.getItem('@user');
+    if (!userLocalStorage) {
+      return;
+    }
+    const user = JSON.parse(userLocalStorage);
+    setUser(user);
+    navigate('/plans');
+  }, []);
 
   const handleChange = (event) => {
     setInputFields({ ...inputFields, [event.target.name]: event.target.value });
@@ -25,6 +37,7 @@ const SignIn = () => {
       .then(async (res) => {
         const userIsSubscriber = res.data.user.is_subscriber;
         localStorage.setItem('@user', JSON.stringify(res.data));
+        setUser(res.data);
         if (!userIsSubscriber) {
           navigate('/plans');
         } else navigate('/subscription');

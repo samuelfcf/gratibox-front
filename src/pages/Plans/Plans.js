@@ -1,16 +1,17 @@
-import { useEffect } from 'react';
+import { useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import * as S from './style';
+import UserContext from '../../contexts/UserContext';
 import WeeklyPlanImg from '../../assets/image04.jpg';
 import MontlyPlanImg from '../../assets/image02.jpg';
 
 const Plans = () => {
   const navigate = useNavigate();
-  const userStorage = JSON.parse(localStorage.getItem('@user'));
+  const { user } = useContext(UserContext);
 
   useEffect(async () => {
-    if (!userStorage?.token) {
+    if (!user) {
       await Swal.fire({
         title: 'Login necessário',
         text: 'Para acessar essa página, você precisa estar logado',
@@ -29,7 +30,6 @@ const Plans = () => {
       });
     }
   }, []);
-  console.log(userStorage?.token);
 
   const handleSubscribe = (e) => {
     e.preventDefault();
@@ -38,8 +38,8 @@ const Plans = () => {
   return (
     <S.PageStyle>
       <S.WelcomeText>
-        {userStorage?.user.name
-          ? `Bom te ver por aqui, ${userStorage?.user.name}`
+        {user?.user.name
+          ? `Bom te ver por aqui, ${user?.user.name}`
           : 'Bom te ver por aqui'}
       </S.WelcomeText>
       <S.SmallText>
