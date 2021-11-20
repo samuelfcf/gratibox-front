@@ -60,4 +60,86 @@ const Button = styled.button`
   margin-bottom: 8px;
 `;
 
-export { PageStyle, WelcomeText, SmallText, SubscribeContainer, Img, Button };
+const Div = styled.div`
+  width: calc(100vw - 50px);
+  margin-bottom: 10px;
+`;
+
+const Details = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Label = styled.label`
+  margin-left: 5px;
+`;
+
+const Input = styled.input`
+  height: 50px;
+`;
+
+const CheckBox = styled.div`
+  display: flex;
+  align-items: center;
+  margin-left: 13px;
+`;
+
+const CheckBoxesDiv = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-bottom: 10px;
+`;
+
+const InputForm = styled.input`
+  width: 290px;
+  height: 44px;
+  border: 0;
+  border-radius: 5px;
+  background-color: rgba(224, 209, 237, 0.62);
+  color: #4d65a8;
+  font-size: 18px;
+  font-weight: bold;
+  font-family: Roboto, sans-serif;
+  padding-left: 10px;
+
+  &::placeholder {
+    color: #4d65a8;
+    font-size: 18px;
+    font-weight: bold;
+    font-family: Roboto, sans-serif;
+  }
+`;
+
+const CityStateInputs = styled(InputForm)`
+  width: 135px;
+`;
+
+const CityStateContainer = styled.div`
+  display: flex;
+  gap: 17px;
+`;
+
+export {
+  PageStyle,
+  WelcomeText,
+  SmallText,
+  SubscribeContainer,
+  Img,
+  Button,
+  Div,
+  Details,
+  Label,
+  Input,
+  CheckBox,
+  CheckBoxesDiv,
+  Form,
+  InputForm,
+  CityStateInputs,
+  CityStateContainer,
+};

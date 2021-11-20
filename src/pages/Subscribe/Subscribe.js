@@ -12,6 +12,7 @@ import {
   AccordionDetails,
 } from '@material-ui/core';
 import styled from 'styled-components';
+import cep from 'cep-promise';
 
 const Subscribe = () => {
   const navigate = useNavigate();
@@ -21,6 +22,13 @@ const Subscribe = () => {
   const [plan, setPlan] = useState('');
   const [deliveryDay, setDeliveryDay] = useState('');
   const [products, setProducts] = useState([]);
+  const [inputFields, setInputFields] = useState({
+    name: '',
+    cep: '',
+    deliveryAddress: '',
+    city: '',
+    state: '',
+  });
   const [step, setStep] = useState(1);
 
   useEffect(async () => {
@@ -44,6 +52,10 @@ const Subscribe = () => {
     }
   }, []);
 
+  const handleInputChange = (event) => {
+    setInputFields({ ...inputFields, [event.target.name]: event.target.value });
+  };
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpandedPanel(isExpanded ? panel : false);
   };
@@ -61,14 +73,32 @@ const Subscribe = () => {
   };
 
   const createSubscribe = () => {
-    setSubscribe({
-      userId: user.user.id,
-      plan: plan,
-      deliveryDay: deliveryDay,
-      products: products,
-    });
+    if (step === 1) {
+      setSubscribe({
+        userId: user.user.id,
+        plan: plan,
+        deliveryDay: deliveryDay,
+        products: products,
+      });
 
-    setStep(2);
+      setStep(2);
+    } else {
+      const body = inputFields;
+      setSubscribe({ ...subscribe, body });
+    }
+  };
+  console.log(subscribe);
+
+  const handleCep = (event) => {
+    cep(event.target.value).then((res) => {
+      setInputFields({
+        name: inputFields.name,
+        cep: res.cep,
+        deliveryAddress: `${res.street} - `,
+        city: res.city,
+        state: res.state,
+      });
+    });
   };
 
   return (
@@ -83,7 +113,7 @@ const Subscribe = () => {
         <S.Img src={GirlInLotus} alt="girl in lotus" />
         {step === 1 ? (
           <>
-            <Div>
+            <S.Div>
               <Accordion
                 expanded={expandedPanel === 'panel1'}
                 onChange={handleChange('panel1')}
@@ -93,9 +123,9 @@ const Subscribe = () => {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                  <Details>
-                    <CheckBoxesDiv>
-                      <CheckBox>
+                  <S.Details>
+                    <S.CheckBoxesDiv>
+                      <S.CheckBox>
                         <input
                           onClick={() => selectPlan('mensal')}
                           type="radio"
@@ -103,9 +133,9 @@ const Subscribe = () => {
                           name="plan"
                           value="mensal"
                         />
-                        <Label htmlFor="mensal">Mensal</Label>
-                      </CheckBox>
-                      <CheckBox>
+                        <S.Label htmlFor="mensal">Mensal</S.Label>
+                      </S.CheckBox>
+                      <S.CheckBox>
                         <input
                           onClick={() => selectPlan('semanal')}
                           type="radio"
@@ -113,14 +143,14 @@ const Subscribe = () => {
                           name="plan"
                           value="semanal"
                         />
-                        <Label htmlFor="semanal">Semanal</Label>
-                      </CheckBox>
-                    </CheckBoxesDiv>
-                  </Details>
+                        <S.Label htmlFor="semanal">Semanal</S.Label>
+                      </S.CheckBox>
+                    </S.CheckBoxesDiv>
+                  </S.Details>
                 </AccordionDetails>
               </Accordion>
-            </Div>
-            <Div>
+            </S.Div>
+            <S.Div>
               <Accordion
                 expanded={expandedPanel === 'panel2'}
                 onChange={handleChange('panel2')}
@@ -201,8 +231,8 @@ const Subscribe = () => {
                   )}
                 </AccordionDetails>
               </Accordion>
-            </Div>
-            <Div>
+            </S.Div>
+            <S.Div>
               <Accordion
                 expanded={expandedPanel === 'panel3'}
                 onChange={handleChange('panel3')}
@@ -212,77 +242,89 @@ const Subscribe = () => {
                 </AccordionSummary>
 
                 <AccordionDetails>
-                  <CheckBoxesDiv>
-                    <CheckBox>
-                      <Input
+                  <S.CheckBoxesDiv>
+                    <S.CheckBox>
+                      <S.Input
                         onClick={() => selectProduct('Chás')}
                         type="checkbox"
                         id="chás"
                         name="chás"
                       />
-                      <Label htmlFor="chás">Chás</Label>
-                    </CheckBox>
-                    <CheckBox>
-                      <Input
+                      <S.Label htmlFor="chás">Chás</S.Label>
+                    </S.CheckBox>
+                    <S.CheckBox>
+                      <S.Input
                         onClick={() => selectProduct('Incensos')}
                         type="checkbox"
                         id="incensos"
                         name="incensos"
                       />
-                      <Label htmlFor="incensos">Incensos</Label>
-                    </CheckBox>
-                    <CheckBox>
-                      <Input
+                      <S.Label htmlFor="incensos">Incensos</S.Label>
+                    </S.CheckBox>
+                    <S.CheckBox>
+                      <S.Input
                         onClick={() => selectProduct('Produtos orgânicos')}
                         type="checkbox"
                         id="produtos orgânicos"
                         name="produtos orgânicos"
                       />
-                      <Label htmlFor="produtos orgânicos">
+                      <S.Label htmlFor="produtos orgânicos">
                         Produtos Orgânicos
-                      </Label>
-                    </CheckBox>
-                  </CheckBoxesDiv>
+                      </S.Label>
+                    </S.CheckBox>
+                  </S.CheckBoxesDiv>
                 </AccordionDetails>
               </Accordion>
-            </Div>
+            </S.Div>
           </>
         ) : (
-          ''
+          <S.Form>
+            <S.InputForm
+              autoFocus
+              name="name"
+              placeholder="Nome completo"
+              onChange={handleInputChange}
+              value={inputFields.name}
+              autoComplete="off"
+            />
+            <S.InputForm
+              name="cep"
+              placeholder="CEP"
+              onChange={handleInputChange}
+              onBlur={handleCep}
+              value={inputFields.cep}
+              autoComplete="off"
+            />
+            <S.InputForm
+              autoFocus
+              name="deliveryAddress"
+              placeholder="Endereço de entrega"
+              onChange={handleInputChange}
+              value={inputFields.deliveryAddress}
+              autoComplete="off"
+            />
+            <S.CityStateContainer>
+              <S.CityStateInputs
+                autoFocus
+                name="city"
+                placeholder="Cidade"
+                onChange={handleInputChange}
+                value={inputFields.city}
+              />
+              <S.CityStateInputs
+                autoFocus
+                name="state"
+                placeholder="Estado"
+                onChange={handleInputChange}
+                value={inputFields.state}
+              />
+            </S.CityStateContainer>
+          </S.Form>
         )}
       </S.SubscribeContainer>
       <S.Button onClick={createSubscribe}>Próximo</S.Button>
     </S.PageStyle>
   );
 };
-
-const Div = styled.div`
-  width: calc(100vw - 50px);
-  margin-bottom: 10px;
-`;
-
-const Details = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Label = styled.label`
-  margin-left: 5px;
-`;
-
-const Input = styled.input`
-  height: 50px;
-`;
-
-const CheckBox = styled.div`
-  display: flex;
-  align-items: center;
-  margin-left: 13px;
-`;
-
-const CheckBoxesDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
 
 export default Subscribe;
