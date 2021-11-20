@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import * as S from './style';
 import UserContext from '../../contexts/UserContext';
+import SubscribeContext from '../../contexts/SubscribeContext';
 import GirlInLotus from '../../assets/image03.jpg';
 import { ExpandMore } from '@material-ui/icons';
 import {
@@ -15,6 +16,7 @@ import styled from 'styled-components';
 const Subscribe = () => {
   const navigate = useNavigate();
   const { user } = useContext(UserContext);
+  const { subscribe, setSubscribe } = useContext(SubscribeContext);
   const [expandedPanel, setExpandedPanel] = useState(false);
   const [plan, setPlan] = useState('');
   const [deliveryDay, setDeliveryDay] = useState('');
@@ -55,6 +57,17 @@ const Subscribe = () => {
     } else {
       setProducts([...products, product]);
     }
+  };
+
+  const createSubscribe = () => {
+    setSubscribe({
+      userId: user.user.id,
+      plan: plan,
+      deliveryDay: deliveryDay,
+      products: products,
+    });
+
+    console.log(subscribe);
   };
 
   return (
@@ -230,7 +243,7 @@ const Subscribe = () => {
           </Accordion>
         </Div>
       </S.SubscribeContainer>
-      <S.Button>Próximo</S.Button>
+      <S.Button onClick={createSubscribe}>Próximo</S.Button>
     </S.PageStyle>
   );
 };
