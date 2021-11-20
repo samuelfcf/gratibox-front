@@ -1,18 +1,19 @@
-import { useEffect, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import * as S from './style';
+import { useEffect, useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserContext from '../../contexts/UserContext';
 import SubscribeContext from '../../contexts/SubscribeContext';
 import GirlInLotus from '../../assets/image03.jpg';
 import { ExpandMore } from '@material-ui/icons';
+import cep from 'cep-promise';
+import { postSubscribe } from '../../services/api';
+import { createSubscribeBody } from '../../services/utils';
 import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
 } from '@material-ui/core';
-import styled from 'styled-components';
-import cep from 'cep-promise';
 
 const Subscribe = () => {
   const navigate = useNavigate();
@@ -56,7 +57,7 @@ const Subscribe = () => {
     setInputFields({ ...inputFields, [event.target.name]: event.target.value });
   };
 
-  const handleChange = (panel) => (event, isExpanded) => {
+  const handleChange = (panel) => (isExpanded) => {
     setExpandedPanel(isExpanded ? panel : false);
   };
 
@@ -74,6 +75,13 @@ const Subscribe = () => {
 
   const createSubscribe = () => {
     if (step === 1) {
+      if (!plan || !deliveryDay || products.length === 0) {
+        return Swal.fire({
+          title: 'Campos vazios',
+          text: 'Para prosseguir, selecione todos os campos.',
+          icon: 'warning',
+        });
+      }
       setSubscribe({
         userId: user.user.id,
         plan: plan,
@@ -82,12 +90,47 @@ const Subscribe = () => {
       });
 
       setStep(2);
-    } else {
-      const body = inputFields;
-      setSubscribe({ ...subscribe, body });
+    }
+
+    if (step === 2) {
+      if (
+        !inputFields.name ||
+        !inputFields.cep ||
+        !inputFields.deliveryAddress ||
+        !inputFields.state ||
+        !inputFields.city
+      ) {
+        return Swal.fire({
+          title: 'Campos vazios',
+          text: 'Para prosseguir, selecione todos os campos.',
+          icon: 'warning',
+        });
+      }
+
+      const deliveryInfo = inputFields;
+      const subscribeObject = {
+        ...subscribe,
+        deliveryInfo,
+      };
+      const body = createSubscribeBody(subscribeObject);
+      postSubscribe(body, user.token, user.user.id)
+        .then(async () => {
+          await Swal.fire({
+            icon: 'success',
+            title: 'Assinatura concluída com sucesso!',
+          });
+          navigate('/subscription');
+        })
+        .catch(async () => {
+          await Swal.fire({
+            icon: 'error',
+            title:
+              'Erro ao concluir sua assinatura, por favor tente novamente.',
+          });
+          window.location.reload();
+        });
     }
   };
-  console.log(subscribe);
 
   const handleCep = (event) => {
     cep(event.target.value).then((res) => {
@@ -163,70 +206,70 @@ const Subscribe = () => {
                   {!plan ? (
                     'Selecione um plano!'
                   ) : plan === 'mensal' ? (
-                    <>
-                      <div>
-                        <input
+                    <S.CheckBoxesDiv>
+                      <S.CheckBox>
+                        <S.Input
                           onClick={() => setDeliveryDay('1')}
                           type="radio"
                           id="1"
                           name="day"
                           value="1"
                         />
-                        <label htmlFor="1">Dia 1</label>
-                      </div>
-                      <div>
-                        <input
+                        <S.Label htmlFor="1">Dia 1</S.Label>
+                      </S.CheckBox>
+                      <S.CheckBox>
+                        <S.Input
                           onClick={() => setDeliveryDay('10')}
                           type="radio"
                           id="10"
                           name="day"
                           value="10"
                         />
-                        <label htmlFor="10">Dia 10</label>
-                      </div>
-                      <div>
-                        <input
+                        <S.Label htmlFor="10">Dia 10</S.Label>
+                      </S.CheckBox>
+                      <S.CheckBox>
+                        <S.Input
                           onClick={() => setDeliveryDay('20')}
                           type="radio"
                           id="20"
                           name="day"
                           value="20"
                         />
-                        <label htmlFor="20">Dia 20</label>
-                      </div>
-                    </>
+                        <S.Label htmlFor="20">Dia 20</S.Label>
+                      </S.CheckBox>
+                    </S.CheckBoxesDiv>
                   ) : (
                     <>
-                      <div>
-                        <input
+                      <S.CheckBox>
+                        <S.Input
                           onClick={() => setDeliveryDay('Segunda')}
                           type="radio"
                           id="segunda"
                           name="weekday"
                           value="segunda"
                         />
-                        <label htmlFor="segunda">Segunda</label>
-                      </div>
-                      <div>
-                        <input
+                        <S.Label htmlFor="segunda">Segunda</S.Label>
+                      </S.CheckBox>
+                      <S.CheckBox>
+                        <S.Input
                           onClick={() => setDeliveryDay('Quarta')}
                           type="radio"
                           id="quarta"
                           name="weekday"
                           value="quarta"
                         />
-                        <label htmlFor="quarta">Quarta</label>
-                      </div>
-                      <div>
-                        <input
+                        <S.Label htmlFor="quarta">Quarta</S.Label>
+                      </S.CheckBox>
+                      <S.CheckBox>
+                        <S.Input
                           onClick={() => setDeliveryDay('Sexta')}
                           type="radio"
                           id="sexta"
-                          name="day"
+                          name="weekday"
                           value="sexta"
                         />
-                        <label htmlFor="sexta">Sexta</label>
-                      </div>
+                        <S.Label htmlFor="sexta">Sexta</S.Label>
+                      </S.CheckBox>
                     </>
                   )}
                 </AccordionDetails>
@@ -296,7 +339,6 @@ const Subscribe = () => {
               autoComplete="off"
             />
             <S.InputForm
-              autoFocus
               name="deliveryAddress"
               placeholder="Endereço de entrega"
               onChange={handleInputChange}
@@ -305,14 +347,12 @@ const Subscribe = () => {
             />
             <S.CityStateContainer>
               <S.CityStateInputs
-                autoFocus
                 name="city"
                 placeholder="Cidade"
                 onChange={handleInputChange}
                 value={inputFields.city}
               />
               <S.CityStateInputs
-                autoFocus
                 name="state"
                 placeholder="Estado"
                 onChange={handleInputChange}
