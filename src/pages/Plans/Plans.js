@@ -11,9 +11,7 @@ const Plans = () => {
   const { user } = useContext(UserContext);
 
   useEffect(async () => {
-    const { token } = user;
-    console.log(token);
-    if (!token) {
+    if (!user) {
       await Swal.fire({
         title: 'Login necessário',
         text: 'Para acessar essa página, você precisa estar logado',
@@ -40,8 +38,8 @@ const Plans = () => {
   return (
     <S.PageStyle>
       <S.WelcomeText>
-        {user.user.name
-          ? `Bom te ver por aqui, ${user.user.name}`
+        {user?.user.name
+          ? `Bom te ver por aqui, ${user?.user.name}`
           : 'Bom te ver por aqui'}
       </S.WelcomeText>
       <S.SmallText>
