@@ -14,7 +14,7 @@ const Pages = () => {
       <Route path="/sign-up" element={<SignUp />} />
       <Route path="/plans" element={<Plans />} />
       <Route path="/subscribe" element={<Subscribe />} />
-      <Route path="/subscription" element={<Subscription />} />
+      <Route path="/subscription/:userId" element={<Subscription />} />
     </Routes>
   );
 };

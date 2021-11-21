@@ -46,7 +46,7 @@ const Plans = () => {
         Você ainda não asinou um plano, que tal começar agora?
       </S.SmallText>
 
-      <S.PlansConteinar>
+      <S.PlansConteiner>
         <S.PlanContainer>
           <S.Img src={WeeklyPlanImg} alt="girl in lotus" />
           <S.PlanText>
@@ -58,7 +58,7 @@ const Plans = () => {
 
         <S.PlanContainer>
           <S.Img
-            style={{ width: '350px' }}
+            style={{ minWidth: '100%' }}
             src={MontlyPlanImg}
             alt="girl in lotus"
           />
@@ -68,7 +68,7 @@ const Plans = () => {
           </S.PlanText>
           <S.PlanButton onClick={handleSubscribe}>Assinar</S.PlanButton>
         </S.PlanContainer>
-      </S.PlansConteinar>
+      </S.PlansConteiner>
     </S.PageStyle>
   );
 };

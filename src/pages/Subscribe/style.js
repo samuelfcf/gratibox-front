@@ -6,6 +6,7 @@ const PageStyle = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
+  min-height: 100vh;
 `;
 
 const WelcomeText = styled.h1`
@@ -38,6 +39,7 @@ const SubscribeContainer = styled.div`
   align-items: center;
   justify-content: center;
   width: fit-content;
+  height: 100%;
 `;
 
 const Img = styled.img`
@@ -75,7 +77,7 @@ const Label = styled.label`
 `;
 
 const Input = styled.input`
-  height: 50px;
+  height: 30px;
 `;
 
 const CheckBox = styled.div`

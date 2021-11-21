@@ -119,7 +119,7 @@ const Subscribe = () => {
             icon: 'success',
             title: 'Assinatura concluída com sucesso!',
           });
-          navigate('/subscription');
+          navigate(`/subscription/${user.user.id}`);
         })
         .catch(async () => {
           await Swal.fire({
@@ -158,6 +158,11 @@ const Subscribe = () => {
           <>
             <S.Div>
               <Accordion
+                style={{
+                  backgroundColor: '#e0d1ed',
+                  color: '#4D65A8',
+                  fontWeight: 'bold',
+                }}
                 expanded={expandedPanel === 'panel1'}
                 onChange={handleChange('panel1')}
               >
@@ -170,6 +175,7 @@ const Subscribe = () => {
                     <S.CheckBoxesDiv>
                       <S.CheckBox>
                         <input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => selectPlan('mensal')}
                           type="radio"
                           id="mensal"
@@ -180,6 +186,7 @@ const Subscribe = () => {
                       </S.CheckBox>
                       <S.CheckBox>
                         <input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => selectPlan('semanal')}
                           type="radio"
                           id="semanal"
@@ -195,6 +202,11 @@ const Subscribe = () => {
             </S.Div>
             <S.Div>
               <Accordion
+                style={{
+                  backgroundColor: '#e0d1ed',
+                  color: '#4D65A8',
+                  fontWeight: 'bold',
+                }}
                 expanded={expandedPanel === 'panel2'}
                 onChange={handleChange('panel2')}
               >
@@ -209,6 +221,7 @@ const Subscribe = () => {
                     <S.CheckBoxesDiv>
                       <S.CheckBox>
                         <S.Input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => setDeliveryDay('1')}
                           type="radio"
                           id="1"
@@ -219,6 +232,7 @@ const Subscribe = () => {
                       </S.CheckBox>
                       <S.CheckBox>
                         <S.Input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => setDeliveryDay('10')}
                           type="radio"
                           id="10"
@@ -229,6 +243,7 @@ const Subscribe = () => {
                       </S.CheckBox>
                       <S.CheckBox>
                         <S.Input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => setDeliveryDay('20')}
                           type="radio"
                           id="20"
@@ -242,6 +257,7 @@ const Subscribe = () => {
                     <>
                       <S.CheckBox>
                         <S.Input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => setDeliveryDay('Segunda')}
                           type="radio"
                           id="segunda"
@@ -252,6 +268,7 @@ const Subscribe = () => {
                       </S.CheckBox>
                       <S.CheckBox>
                         <S.Input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => setDeliveryDay('Quarta')}
                           type="radio"
                           id="quarta"
@@ -262,6 +279,7 @@ const Subscribe = () => {
                       </S.CheckBox>
                       <S.CheckBox>
                         <S.Input
+                          style={{ marginBottom: '5px' }}
                           onClick={() => setDeliveryDay('Sexta')}
                           type="radio"
                           id="sexta"
@@ -277,6 +295,11 @@ const Subscribe = () => {
             </S.Div>
             <S.Div>
               <Accordion
+                style={{
+                  backgroundColor: '#e0d1ed',
+                  color: '#4D65A8',
+                  fontWeight: 'bold',
+                }}
                 expanded={expandedPanel === 'panel3'}
                 onChange={handleChange('panel3')}
               >

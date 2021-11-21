@@ -1,10 +1,35 @@
 import * as S from './style';
-import { useContext } from 'react';
+import Swal from 'sweetalert2';
+import { useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import UserContext from '../../contexts/UserContext';
 import GirlInLotus from '../../assets/image03.jpg';
 
 const Subscription = () => {
   const { user } = useContext(UserContext);
+  const navigate = useNavigate();
+
+  useEffect(async () => {
+    if (!user) {
+      await Swal.fire({
+        title: 'Login necessário',
+        text: 'Para acessar essa página, você precisa estar logado',
+        icon: 'warning',
+        showDenyButton: true,
+        confirmButtonText: 'Fazer Login',
+        denyButtonText: 'Ir para Home',
+        confirmButtonColor: '#2A6DB0',
+        denyButtonColor: '#AAA',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          navigate('/sign-in');
+        } else {
+          navigate('/');
+        }
+      });
+    }
+  }, []);
+
   return (
     <S.PageStyle>
       <S.WelcomeText>

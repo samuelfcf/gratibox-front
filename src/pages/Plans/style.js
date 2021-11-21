@@ -30,7 +30,7 @@ const SmallText = styled.h2`
   margin-bottom: 10px;
 `;
 
-const PlansConteinar = styled.div`
+const PlansConteiner = styled.div`
   overflow-x: scroll;
   width: fit-content;
 `;
@@ -44,11 +44,12 @@ const PlanContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: fit-content;
+  max-width: calc(100vw - 50px);
 `;
 
 const Img = styled.img`
   width: fit-content;
+  max-width: 350px;
   height: 300px;
   border-radius: 25px;
 `;
@@ -81,7 +82,7 @@ export {
   PageStyle,
   WelcomeText,
   SmallText,
-  PlansConteinar,
+  PlansConteiner,
   PlanContainer,
   Img,
   PlanText,

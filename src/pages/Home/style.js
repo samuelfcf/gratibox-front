@@ -11,8 +11,6 @@ const PageStyle = styled.div`
 
 const Img = styled.img`
   width: 100%;
-  height: 480px;
-  position: relative;
 `;
 
 const PageBigText = styled.h1`
@@ -33,7 +31,6 @@ const PageSmallText = styled.h3`
 `;
 
 const ButtonSignUp = styled.button`
-  position: absolute;
   bottom: 42px;
   width: 202px;
   height: 45px;
@@ -47,13 +44,24 @@ const ButtonSignUp = styled.button`
 `;
 
 const ButtonSignIn = styled.button`
-  position: absolute;
   bottom: 8px;
   border: 0;
   background: none;
   font-size: 18px;
   color: #ffffff;
   font-weight: 700;
+  margin-top: 10px;
+`;
+
+const ButtonsArea = styled.div`
+  display: flex;
+  width: 100vw;
+  border: 0;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #4d65a8;
+  height: 100%;
 `;
 
 export {
@@ -63,4 +71,5 @@ export {
   PageSmallText,
   ButtonSignIn,
   ButtonSignUp,
+  ButtonsArea,
 };
