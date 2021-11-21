@@ -1,12 +1,16 @@
 import * as S from './style';
 import Swal from 'sweetalert2';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { getSubscriptionInfo } from '../../services/api';
 import UserContext from '../../contexts/UserContext';
 import GirlInLotus from '../../assets/image03.jpg';
 
 const Subscription = () => {
   const { user } = useContext(UserContext);
+  const [plan, setPlan] = useState('');
+  const [products, setProducts] = useState([]);
+  const [subscriptionDate, setSubscriptionDate] = useState('');
   const navigate = useNavigate();
 
   useEffect(async () => {
@@ -28,6 +32,15 @@ const Subscription = () => {
         }
       });
     }
+
+    if (user) {
+      getSubscriptionInfo(user.token, user.user.id).then((res) => {
+        console.log(res.data);
+        if (res.data[0].plan === 1) {
+          setPlan('Mensal');
+        } else setPlan('Semanal');
+      });
+    }
   }, []);
 
   return (
@@ -44,7 +57,7 @@ const Subscription = () => {
         <S.SubscriptionInfo>
           <div>
             <S.InfoTitle>Plano: </S.InfoTitle>
-            <S.Infos>@tipo_de_plano</S.Infos>
+            <S.Infos>{!plan ? '' : plan}</S.Infos>
           </div>
           <div>
             <S.InfoTitle>Data da assinatura: </S.InfoTitle>
