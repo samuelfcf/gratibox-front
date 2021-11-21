@@ -1,4 +1,5 @@
 const createSubscribeBody = (subscribe) => {
+  console.log(subscribe);
   const [, number] = subscribe.deliveryInfo?.deliveryAddress.split('- ');
   let productsIds = [];
 
@@ -9,7 +10,7 @@ const createSubscribeBody = (subscribe) => {
   });
 
   const body = {
-    planId: subscribe.plan === 1 ? 1 : 2,
+    planId: subscribe.plan === 'mensal' ? 1 : 2,
     deliveryDay: subscribe.deliveryDay,
     deliveryCEP: subscribe.deliveryInfo.cep,
     deliveryNumber: number,
