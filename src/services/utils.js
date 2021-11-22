@@ -1,6 +1,6 @@
 const createSubscribeBody = (subscribe) => {
   console.log(subscribe);
-  const [, number] = subscribe.deliveryInfo?.deliveryAddress.split('- ');
+  const [address, number] = subscribe.deliveryInfo?.deliveryAddress.split('- ');
   let productsIds = [];
 
   subscribe.products?.forEach((p) => {
@@ -14,6 +14,8 @@ const createSubscribeBody = (subscribe) => {
     deliveryDay: subscribe.deliveryDay,
     deliveryCEP: subscribe.deliveryInfo.cep,
     deliveryNumber: number,
+    deliveryAddress: address,
+    deliveryRecipient: subscribe.deliveryInfo.name,
     productsIds: JSON.stringify(productsIds),
   };
 
