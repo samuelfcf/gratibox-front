@@ -1,7 +1,6 @@
 import { nextMonday, nextWednesday, nextFriday, add } from 'date-fns';
 
 const createSubscribeBody = (subscribe) => {
-  console.log(subscribe);
   const [address, number] = subscribe.deliveryInfo?.deliveryAddress.split('- ');
   let productsIds = [];
 
