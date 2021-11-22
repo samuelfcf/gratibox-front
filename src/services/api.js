@@ -25,4 +25,9 @@ const postSubscribe = (body, token, id) => {
   return promise;
 };
 
-export { signUp, signIn, postSubscribe };
+const getSubscriptionInfo = (token, id) => {
+  const promise = axios.get(`${BASE_URL}/sub/${id}`, getConfig(token));
+  return promise;
+};
+
+export { signUp, signIn, postSubscribe, getSubscriptionInfo };

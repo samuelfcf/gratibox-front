@@ -8,7 +8,7 @@ import UserContext from '../../contexts/UserContext';
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const { setUser } = useContext(UserContext);
+  const { user, setUser } = useContext(UserContext);
   const [isDisabled, setIsDisabled] = useState(true);
   const [inputFields, setInputFields] = useState({
     email: '',
@@ -40,7 +40,7 @@ const SignIn = () => {
         setUser(res.data);
         if (!userIsSubscriber) {
           navigate('/plans');
-        } else navigate('/subscription');
+        } else navigate(`/subscription/${user.user.id}`);
       })
       .catch(async () => {
         await Swal.fire({
